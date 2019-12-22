@@ -57,6 +57,7 @@ def convert_tuple_to_string(tpl):
 
 
 def training():
+    """Testing phase for neural network. Increments arrays depending on tuples for each data set."""
     class_h_arrays = [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0],
                       [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]]  # 4 arrays in each class
     class_l_arrays = [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0],
@@ -64,14 +65,22 @@ def training():
 
     #  training for H
     for x in range(200):
-        tuples = generate_rnd_set(x)[0]  # creates 2D array with all tuples from set H
-        for y in range(len(tuples)):  # creates second loop to iterate through the class_h_arrays
-            class_h_arrays[y][binary_conversion(convert_tuple_to_string(tuples[y]))] += 1
+        tuples_h = generate_rnd_set(x)[0]  # creates 2D array with all tuples from set H
+        tuples_l = generate_rnd_set(x)[1]  # creates 2D array with all tuples from set L
+        for y in range(len(tuples_h)):  # creates second loop to iterate through the class_h_arrays
+            class_h_arrays[y][binary_conversion(convert_tuple_to_string(tuples_h[y]))] += 1
+            class_l_arrays[y][binary_conversion(convert_tuple_to_string(tuples_l[y]))] += 1
             # array at index y. gets from tuple sets, which is converted from binary to an integer as an index and ++
-
 
     for x in range(4):
         print(class_h_arrays[x])
+    print("")
+    for x in range(4):
+        print(class_l_arrays[x])
+
+
+def testing():
+    """CPU must determine if the given image is an H or L depending on previous training data"""
 
 
 def main():
