@@ -9,7 +9,7 @@ r_l = []
 
 
 def generate_index_set(index):
-    """returns index_arr, array with random indices. uses tuple_size to get num_sets random indices"""
+    """returns index_arr, array with random indices. uses tuple_size to get num_sets random indices (J)"""
     index_arr = []
     idx = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     for x in range(num_sets):
@@ -24,15 +24,22 @@ def generate_index_set(index):
 
 
 def generate_rnd_set(index):
-    """returns sets, an array that contains all values from data set that correspond to numbers in index set"""
+    """returns sets, an array that contains all values from data set that correspond to numbers in index set (S)"""
     indices = generate_index_set(index)
+    sets_h = []
+    sets_l = []
     sets = []
     for x in range(len(indices)):
-        values = []
+        values_h = []
+        values_l = []
         for y in range(tuple_size):
-            val = r_h[index][0][indices[x][y]-1]  # value of data set at index [x][y]. -1 is used b/c idx set is 1 to 12
-            values.append(val)
-        sets.append(values)
+            val_h = r_h[index][0][indices[x][y]-1]  # value of data set at index [x][y]. -1 b/c idx set is 1 to 12
+            val_l = r_l[index][0][indices[x][y]-1]
+            values_h.append(val_h)
+            values_l.append(val_l)
+
+        sets_h.append(values_h); sets.append(sets_h)
+        sets_l.append(values_l); sets.append(sets_l)
 
     return sets
 
@@ -50,9 +57,21 @@ def convert_tuple_to_string(tpl):
 
 
 def training():
-    initial_arr = [0, 0, 0, 0, 0, 0, 0, 0]  # array ready for incrementation
-    class_h_arrays = [initial_arr, initial_arr, initial_arr, initial_arr]  # 4 arrays in each class
-    class_l_arrays = [initial_arr, initial_arr, initial_arr, initial_arr]
+    class_h_arrays = [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]]  # 4 arrays in each class
+    class_l_arrays = [[0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0],
+                      [0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0]]
+
+    #  training for H
+    for x in range(200):
+        tuples = generate_rnd_set(x)[0]  # creates 2D array with all tuples from set H
+        for y in range(len(tuples)):  # creates second loop to iterate through the class_h_arrays
+            class_h_arrays[y][binary_conversion(convert_tuple_to_string(tuples[y]))] += 1
+            # array at index y. gets from tuple sets, which is converted from binary to an integer as an index and ++
+
+
+    for x in range(4):
+        print(class_h_arrays[x])
 
 
 def main():
@@ -61,7 +80,10 @@ def main():
         r_h.append((DataSet.dataSetH()[x][0]))
         r_l.append((DataSet.dataSetL()[x][0]))
 
-    print(binary_conversion(convert_tuple_to_string([1, 1, 1])))
+
+
+    training()
+    # print(binary_conversion(convert_tuple_to_string([0, 1, 1])))
 
 
 main()
