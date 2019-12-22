@@ -1,6 +1,6 @@
 import random
 
-random.seed(30)  # set constant seed so data set will be same every time program is run
+random.seed(50)  # set constant seed so data set will be same every time program is run
 
 
 def visual_representation(arr):

@@ -6,7 +6,7 @@ tuple_size = 3
 num_sets = math.floor(12 / tuple_size)  # amount of sets to be created depending on tuple size
 r_h = []
 r_l = []
-
+r = []
 
 def generate_index_set(index):
     """returns index_arr, array with random indices. uses tuple_size to get num_sets random indices (J)"""
@@ -71,28 +71,55 @@ def training():
             class_h_arrays[y][binary_conversion(convert_tuple_to_string(tuples_h[y]))] += 1
             class_l_arrays[y][binary_conversion(convert_tuple_to_string(tuples_l[y]))] += 1
             # array at index y. gets from tuple sets, which is converted from binary to an integer as an index and ++
-
+    '''
     for x in range(4):
         print(class_h_arrays[x])
     print("")
     for x in range(4):
         print(class_l_arrays[x])
+    '''
+
+    return [class_h_arrays, class_l_arrays]
 
 
 def testing():
     """CPU must determine if the given image is an H or L depending on previous training data"""
+    results = training()
+    ctr_h = 0; ctr_l = 0
+    for x in range(200,300):  # last 100 arrays from each data set is now being tested
+        sum_h = 0; sum_l = 0
+        tuples_h = generate_rnd_set(x)[0]
+        tuples_l = generate_rnd_set(x)[1]
+        for y in range(len(tuples_h)):  # creates second loop to iterate through the class_h_arrays
+            sum_h += results[0][y][binary_conversion(convert_tuple_to_string(tuples_h[y]))]  # adds value @ index to sum
+            sum_l += results[1][y][binary_conversion(convert_tuple_to_string(tuples_l[y]))]
+        if sum_h > sum_l:
+            guess = "H"
+        else:
+            guess = "L"
+        print(r_h[x][0], "Actual Class")
+        if guess == r_h[x][1]: ctr_h += 1
+        elif guess == r_l[x][1]: ctr_l += 1
+
+    print("Guessed correctly ", ctr_h + ctr_l, " times out of", 100)
+
 
 
 def main():
     # creates r_h and r_l, the data sets generated previously
     for x in range(len(DataSet.dataSetH())):
-        r_h.append((DataSet.dataSetH()[x][0]))
-        r_l.append((DataSet.dataSetL()[x][0]))
-
-
-
+        r.append(DataSet.dataSetH()[x])
+    for x in range(len(DataSet.dataSetL())):
+        r.append(DataSet.dataSetL()[x])
+        #r_h.append((DataSet.dataSetH()[x][0]))
+        #r_l.append((DataSet.dataSetL()[x][0]))
+    print(len(r))
+    for x in range(len(r)): print(r[x][0][0])
     training()
-    # print(binary_conversion(convert_tuple_to_string([0, 1, 1])))
-
+    #testing()
+    '''
+    results = training()
+    print(results[0][0][binary_conversion("000")])
+    '''
 
 main()
