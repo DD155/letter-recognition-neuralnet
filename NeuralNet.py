@@ -4,9 +4,8 @@ import math
 
 tuple_size = 3
 num_sets = math.floor(12 / tuple_size)  # amount of sets to be created depending on tuple size
-r_h = []
-r_l = []
 r = []
+
 
 def generate_index_set(index):
     """returns index_arr, array with random indices. uses tuple_size to get num_sets random indices (J)"""
@@ -30,16 +29,12 @@ def generate_rnd_set(index):
     sets_l = []
     sets = []
     for x in range(len(indices)):
-        values_h = []
-        values_l = []
+        values = []
         for y in range(tuple_size):
-            val_h = r_h[index][0][indices[x][y]-1]  # value of data set at index [x][y]. -1 b/c idx set is 1 to 12
-            val_l = r_l[index][0][indices[x][y]-1]
-            values_h.append(val_h)
-            values_l.append(val_l)
+            val = r[index][0][indices[x][y]-1]  # value of data set at index [x][y]. -1 b/c idx set is 1 to 12
+            values.append(val)
 
-        sets_h.append(values_h); sets.append(sets_h)
-        sets_l.append(values_l); sets.append(sets_l)
+        sets.append(values)
 
     return sets
 
@@ -65,8 +60,8 @@ def training():
 
     #  training for H
     for x in range(200):
-        tuples_h = generate_rnd_set(x)[0]  # creates 2D array with all tuples from set H
-        tuples_l = generate_rnd_set(x)[1]  # creates 2D array with all tuples from set L
+        tuples_h = generate_rnd_set(x)  # creates 2D array with all tuples from set H
+        tuples_l = generate_rnd_set(300+x)  # creates 2D array with all tuples from set L
         for y in range(len(tuples_h)):  # creates second loop to iterate through the class_h_arrays
             class_h_arrays[y][binary_conversion(convert_tuple_to_string(tuples_h[y]))] += 1
             class_l_arrays[y][binary_conversion(convert_tuple_to_string(tuples_l[y]))] += 1
@@ -88,38 +83,48 @@ def testing():
     ctr_h = 0; ctr_l = 0
     for x in range(200,300):  # last 100 arrays from each data set is now being tested
         sum_h = 0; sum_l = 0
-        tuples_h = generate_rnd_set(x)[0]
-        tuples_l = generate_rnd_set(x)[1]
+        tuples_h = generate_rnd_set(x)
         for y in range(len(tuples_h)):  # creates second loop to iterate through the class_h_arrays
             sum_h += results[0][y][binary_conversion(convert_tuple_to_string(tuples_h[y]))]  # adds value @ index to sum
+            sum_l += results[1][y][binary_conversion(convert_tuple_to_string(tuples_h[y]))]
+        if sum_h > sum_l:
+            guess = "H"
+        else:
+            guess = "L"
+        if guess == r[x][1]:
+            ctr_h += 1; g = "True"
+        else:
+            g = "False"
+        print(r[x][0], "Actual Class:", r[x][1], "Predicted Class:", guess, g)
+
+
+    for x in range(500, 600):  # last 100 arrays from each data set is now being tested
+        sum_h = 0; sum_l = 0
+        tuples_l = generate_rnd_set(x)
+        for y in range(len(tuples_h)):  # creates second loop to iterate through the class_h_arrays
+            sum_h += results[0][y][binary_conversion(convert_tuple_to_string(tuples_l[y]))]  # adds value @ index to sum
             sum_l += results[1][y][binary_conversion(convert_tuple_to_string(tuples_l[y]))]
         if sum_h > sum_l:
             guess = "H"
         else:
             guess = "L"
-        print(r_h[x][0], "Actual Class")
-        if guess == r_h[x][1]: ctr_h += 1
-        elif guess == r_l[x][1]: ctr_l += 1
-
-    print("Guessed correctly ", ctr_h + ctr_l, " times out of", 100)
-
+        if guess == r[x][1]:
+            ctr_h += 1; g = "True"
+        else:
+            g = "False"
+        print(r[x][0], "Actual Class:", r[x][1], "Predicted Class:", guess, g)
+    print((((ctr_l+ctr_h)/200)*100), "% accuracy", ":",ctr_l+ctr_h, "/ 200")
+        #print(r[x][0], "Actual Class:", r[x][1], "Predicted Class: ", guess)
 
 
 def main():
-    # creates r_h and r_l, the data sets generated previously
+    # creates r, the data sets generated previously
     for x in range(len(DataSet.dataSetH())):
         r.append(DataSet.dataSetH()[x])
     for x in range(len(DataSet.dataSetL())):
         r.append(DataSet.dataSetL()[x])
-        #r_h.append((DataSet.dataSetH()[x][0]))
-        #r_l.append((DataSet.dataSetL()[x][0]))
-    print(len(r))
-    for x in range(len(r)): print(r[x][0][0])
-    training()
-    #testing()
-    '''
-    results = training()
-    print(results[0][0][binary_conversion("000")])
-    '''
+
+    testing()
+
 
 main()

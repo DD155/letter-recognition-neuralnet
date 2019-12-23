@@ -1,6 +1,6 @@
 import random
 
-random.seed(50)  # set constant seed so data set will be same every time program is run
+random.seed(32138)  # set constant seed so data set will be same every time program is run
 
 
 def visual_representation(arr):
@@ -41,29 +41,29 @@ def gen_arrays_L():
 
 
 def dataSetL():
-    # acceptable generated arrays for L, chose 15 to duplicate to 300
-    l1 = [[1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1], "L"]
+    # acceptable generated arrays for L, to duplicate to 300
+    l1 = [[0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0], "L"]
     l2 = [[1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0], "L"]
     l3 = [[1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0], "L"]
-    l4 = [[1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0], "L"]
+    l4 = [[0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1], "L"]
     l5 = [[0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1], "L"]
-    l6 = [[0, 0, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1], "L"]
-    l7 = [[1, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1], "L"]
-    l8 = [[1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1], "L"]
-    l9 = [[1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1], "L"]
+    l6 = [[1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0], "L"]
+    l7 = [[1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0], "L"]
+    l8 = [[0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0], "L"]
+    l9 = [[0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1], "L"]
     l10 = [[1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0], "L"]
 
-    data_l = [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10]
+    data_l = [l1, l2, l3, l4, l5,l6,l7, l8, l9, l10]
     data_set_l = []
     for x in range(300):
-        new_data = [data_l[random.randint(0, 9)], "L"]
+        new_data = data_l[random.randint(0,9)]
         data_set_l.append(new_data)
 
     return data_set_l
 
 
 def dataSetH():
-    # acceptable generated arrays for H, chose 15 to duplicate to 300
+    # acceptable generated arrays for H, to duplicate to 300
     h1 = [[1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1], "H"]
     h2 = [[1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1], "H"]
     h3 = [[1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1], "H"]
@@ -74,16 +74,11 @@ def dataSetH():
     h8 = [[1, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1], "H"]
     h9 = [[0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1], "H"]
     h10 = [[1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1], "H"]
-    h11 = [[1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0], "H"]
-    h12 = [[1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1], "H"]
-    h13 = [[0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1], "H"]
-    h14 = [[1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1], "H"]
-    h15 = [[0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1], "H"]
 
-    data_h = [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15]  # new array to store accepted values
+    data_h = [h1, h2, h3, h4, h5, h6, h7, h8, h9, h10] #h10, h11, h12, h13, h14, h15]  # new array to store accepted values
     data_set_h = []  # actual data set for H
     for x in range(300):  # generate random amount of each accepted array to put into data set
-        new_data = [data_h[random.randint(0, 14)], "H"]
+        new_data = data_h[random.randint(0, 8)]
         data_set_h.append(new_data)
 
     return data_set_h
