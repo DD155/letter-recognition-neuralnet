@@ -79,6 +79,7 @@ def training():
 
 def testing():
     """CPU must determine if the given image is an H or L depending on previous training data"""
+    d = 0.2  # bonus
     results = training()
     ctr_h = 0; ctr_l = 0
     for x in range(200,300):  # last 100 arrays from each data set is now being tested
@@ -93,10 +94,13 @@ def testing():
             guess = "L"
         if guess == r[x][1]:
             ctr_h += 1; g = "True"
+            for y in range(len(tuples_h)):  # bonus
+                results[0][y][binary_conversion(convert_tuple_to_string(tuples_h[y]))] += d  # adds dn value
         else:
             g = "False"
+            for y in range(len(tuples_h)):  # bonus
+                results[0][y][binary_conversion(convert_tuple_to_string(tuples_h[y]))] -= d  # subs dn value
         print(r[x][0], "Actual Class:", r[x][1], "Predicted Class:", guess, g)
-
 
     for x in range(500, 600):  # last 100 arrays from each data set is now being tested
         sum_h = 0; sum_l = 0
@@ -110,8 +114,12 @@ def testing():
             guess = "L"
         if guess == r[x][1]:
             ctr_h += 1; g = "True"
+            for y in range(len(tuples_h)):  # bonus
+                results[1][y][binary_conversion(convert_tuple_to_string(tuples_h[y]))] += d
         else:
             g = "False"
+            for y in range(len(tuples_h)):  # bonus
+                results[1][y][binary_conversion(convert_tuple_to_string(tuples_h[y]))] -= d
         print(r[x][0], "Actual Class:", r[x][1], "Predicted Class:", guess, g)
     print((((ctr_l+ctr_h)/200)*100), "% accuracy", ":",ctr_l+ctr_h, "/ 200")
         #print(r[x][0], "Actual Class:", r[x][1], "Predicted Class: ", guess)
@@ -125,6 +133,6 @@ def main():
         r.append(DataSet.dataSetL()[x])
 
     testing()
-
+    for x in range(len(r)): print(r[x][0])
 
 main()
